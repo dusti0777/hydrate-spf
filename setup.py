@@ -1,39 +1,28 @@
-#!/usr/bin/env python
-import os
-from distutils.core import setup
+from setuptools import setup, find_packages
 
-from hydrate_spf import VERSION
-
-# I really prefer Markdown to reStructuredText.  PyPi does not.  This allows me
-# to have things how I'd like, but not throw complaints when people are trying
-# to install the package and they don't have pypandoc or the README in the
-# right place.
-try:
-   import pypandoc
-   description = pypandoc.convert('README.md', 'rst')
-except (IOError, OSError, ImportError):
-   description = ''
-try:
-   license = open('LICENSE').read()
-except IOError:
-   license = 'zlib'
+# Read the contents of README.md
+with open('README.md', 'r', encoding='utf-8') as f:
+    description = f.read()
 
 setup(
-   name = 'hydrate-spf',
-   version = VERSION,
-   author = 'James Pearson',
-   author_email = 'james@ifixit.com',
-   packages = ['hydrate_spf'],
-   scripts = ['bin/hydrate-spf'],
-   url = 'https://github.com/iFixit/hydrate-spf',
-   license = license,
-   description = 'A tool to convert an SPF record with nested lookups into a flat list of IPs.',
-   long_description = description,
-   install_requires = [
-      'docopt >= 0.6, < 0.7',
-      'ipaddr >= 2.1.11, < 2.2',
-      'pydns >= 2.3.6, < 2.4',
-      'pyspf >= 2.0.9, < 2.1',
-   ],
+    name='hydrate_spf',
+    version='0.2.0',
+    description='Hydrate an SPF record by recursively parsing include mechanisms',
+    long_description=description,
+    long_description_content_type='text/markdown',  # Specify the content type
+    author='Your Name',
+    author_email='your.email@example.com',
+    url='https://github.com/mattegg/hydrate-spf',
+    packages=find_packages(),
+    install_requires=[
+        # Add package dependencies here
+    ],
+    classifiers=[
+        # Add classifiers here
+    ],
+    entry_points={
+        'console_scripts': [
+            'hydrate_spf=hydrate_spf:main',
+        ],
+    },
 )
-
